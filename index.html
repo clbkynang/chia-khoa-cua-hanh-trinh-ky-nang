@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cánh cửa Doraemon nâng cấp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom right, #87cefa, #b0e0e6);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Baloo 2', cursive;
+      overflow: hidden;
+    }
+
+    .container {
+      position: relative;
+      width: 300px;
+      height: 500px;
+    }
+
+    .door-wrapper {
+      perspective: 1500px;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 2;
+    }
+
+    .door {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffb6c1, #ffa6c9);
+      border: 5px solid white;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transform-origin: left center;
+      transition: transform 1.2s ease-in-out, box-shadow 0.5s;
+      position: relative;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 15px rgba(255, 182, 193, 0.6); }
+      50% { box-shadow: 0 0 30px rgba(255, 182, 193, 1); }
+      100% { box-shadow: 0 0 15px rgba(255, 182, 193, 0.6); }
+    }
+
+    .door::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .door.open {
+      transform: rotateY(-100deg);
+      animation: none;
+    }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 28px;
+      color: white;
+      text-shadow: 2px 2px 6px #ff69b4;
+      display: none;
+      z-index: 1;
+      text-align: center;
+      line-height: 1.2;
+      animation: fadeIn 1.5s ease forwards;
+      white-space: pre-line;
+      width: 90%;
+      max-width: 280px;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -70%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .icon {
+      font-size: 40px;
+      display: block;
+      margin-bottom: 10px;
+      animation: sparkle 1.5s infinite;
+    }
+
+    .icon-bottom {
+      font-size: 36px;
+      display: block;
+      margin-top: 10px;
+      animation: sparkle 2s infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    .confetti {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background-color: #fff;
+      opacity: 0.8;
+      border-radius: 50%;
+animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="door-wrapper">
+      <div class="door" id="door"></div>
+    </div>
+    <div class="message" id="message">
+      <span class="icon">✨</span>
+      Chúc mừng<br>
+      các bạn đã<br>
+      hoàn thành<br>
+      thử thách!<br>
+      <span class="icon-bottom">🎆</span>
+    </div>
+  </div>
+
+  <script>
+    const door = document.getElementById('door');
+    const message = document.getElementById('message');
+
+    function createConfetti() {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.top = -Math.random() * 100 + 'vh';
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
+      confetti.style.animationDuration = (2 + Math.random() * 3) + 's';
+      document.body.appendChild(confetti);
+
+      setTimeout(() => {
+        confetti.remove();
+      }, 6000);
+    }
+
+    door.addEventListener('click', () => {
+      door.classList.add('open');
+      setTimeout(() => {
+        message.classList.add('show');
+      }, 1000);
+      
+      // Tạo rơi liên tục
+      setInterval(() => {
+        for (let i = 0; i < 5; i++) {
+          createConfetti();
+        }
+      }, 300);
+    });
+  </script>
+</body>
+</html>
